@@ -1358,54 +1358,6 @@ template <typename T> bool Matrix<T>::inv_slow(){
 	return true;
 }
 
-//template <> double Matrix<double>::det(void) const{
-//	if(this->cols != this->rows){
-//		throw std::invalid_argument( "Matrix<double>::det() Error: Cannot calculate the determinant of a non-square matrix!");
-//	}
-//
-//	//if it's 2x2 I can simply do it w/o having do LUD or any other
-//	//expensive operations. No reason do all of those extra operations.
-//	//if(cols == 2 && rows == 2)
-//	//	return _det();
-//	//since it's a const we have to create a matrix to modify.
-//	Matrix<double> tmp_matrix(cols,rows);
-//	tmp_matrix=*this;
-//	double determinant=0;
-//	if(!tmp_matrix.lud(determinant))
-//		determinant=0;
-//
-//	return determinant;
-//}
-////the normal template type is here. I'm going to use gaussian elimination for every other type than double or float.
-//template <typename T> T Matrix<T>::det(void)const{
-//
-//	if(this->cols != this->rows){
-//		throw std::invalid_argument( "Matrix<double>::det() Error: Cannot calculate the determinant of a non-square matrix!");
-//	}
-//
-//	//if it's 2x2 I can simply do it w/o having do LUD or any other
-//	//expensive operations. No reason do all of those extra operations.
-//
-//	if(cols == 2 && rows == 2)
-//		return _det();
-//	//we create a vector so that we can then cast to a double.
-//	//to keep precision this has to be done.
-//	std::vector<double> vec(this->cols*this->rows);
-//	for(size_t i=0;i<vec.size();i++){
-//		vec[i]= static_cast<double>(this->array[i]);
-//	}
-//	//then we allocate the matrix.
-//	Matrix<double> tmp_matrix(vec,this->cols,this->rows);
-//	std::cout << tmp_matrix << std::endl;
-//	double determinant=0.0;
-//
-//	bool res=tmp_matrix.lud(determinant);
-//	if(!res)
-//		determinant=0;
-//
-//	return static_cast<T>(determinant);
-//}
-
 template <> void Matrix<double>::lud_backsub(const std::vector<size_t> &partition, const std::vector<double> &v,std::vector<double> &s) const{
 	size_t i,j,k,ip;
 	bool nonzero = false;
