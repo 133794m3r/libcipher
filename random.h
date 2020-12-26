@@ -1,5 +1,6 @@
 #ifndef XOR_RANDOM_LIB
 #define XOR_RANDOM_LIB
+#include <chrono>
 #ifndef uint64
 typedef unsigned long long uint64;
 #endif

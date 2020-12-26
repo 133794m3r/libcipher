@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include "matrix.hxx"
-#include "hill_cipher.hxx"
+#include "hill/hill_cipher.hxx"
 /*
  * By Macarthur Inbody <admin-contact@transcendental.us> 2020
  * Licensed AGPLv3

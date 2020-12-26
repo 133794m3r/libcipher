@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 project(libciphers)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 if(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++11 /W4")
 	set(CMAKE_CXX_FLAGS_RELEASE "{CMAKE_CXX_FLAGS_RELEASE} /O2")
@@ -28,9 +28,13 @@ add_executable(matrix_test
 add_executable(hill_cipher
 		hill_cipher.cpp
 		matrix.hxx
-		hill_cipher.hxx
+		hill/hill_cipher.hxx
 		math.hxx
 		vectors.hxx)
 
+add_executable(affine
+		affine/affine.hxx
+		affine/affine_test.cpp misc.hxx)
+
 add_executable(hill_test
-		hill_test.cpp)
+		hill/hill_test.cpp)

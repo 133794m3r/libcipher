@@ -764,7 +764,7 @@ public:
 		for(i=0;i<this->rows;++i) {
 			for (j = 0; j < other_matrix.cols; j++) {
 				for (k = 0; k < this->cols; k++) {
-					tmp_matrix[j + (other_matrix.cols * i)] += mod(this->array[k + (i * this->cols)] * other_matrix.array[j + (k * other_matrix.cols)],static_cast<int>(modulus));
+					tmp_matrix[j + (other_matrix.cols * i)] = mod(tmp_matrix[j + (other_matrix.cols * i)]+(this->array[k + (i * this->cols)] * other_matrix.array[j + (k * other_matrix.cols)]),static_cast<int>(modulus));
 				}
 			}
 		}

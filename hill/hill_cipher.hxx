@@ -8,9 +8,9 @@
 
 #ifndef _HILL_CIPHER_
 #define _HILL_CIPHER_
-#include "matrix.hxx"
-#include "vectors.hxx"
-#include "random.h"
+#include "../matrix.hxx"
+#include "../vectors.hxx"
+#include "../random.h"
 #include <map>
 #include <cmath>
 #include <gmpxx.h>
@@ -313,8 +313,7 @@ class Hill{
 				for(size_t k=0;k<chunk_size;k++){
 					//insert into it at the correct spot the correct character.
 					//later I'll actually do the lookup part.
-					//result[i][k+(j*chunk_size)]=input_data[(i*mat_size)+(j+(k*chunk_size))];
-					item=input_data[(i*mat_size)+(k+(j*chunk_size))];
+					item=input_data[(i*mat_size)+(j+(k*chunk_size))];
 					iterator=alphabet.find(item);
 					//if we don't find it we just make it be a zero index and warn them.
 					if(iterator == alphabet.end()){
@@ -393,7 +392,8 @@ class Hill{
 			}
 		}
 		ct = ct.inv_mod((int)alphabet_size);
-		ct = ct.mul_mod(pt,alphabet_size);
+		std::cout << "ct inv mod " << ct << std::endl;
+		ct = pt.mul_mod(ct,alphabet_size);
 
 		return ct;
 	}
