@@ -7,7 +7,9 @@
 #include "../random.h"
 #include "../misc.hxx"
 #include "../math.hxx"
-
+#ifndef WARN_AFFINE_MSG
+#define WARN_AFFINE_MSG (0)
+#endif
 class Affine{
   private:
 	char coprimes[12] = {1,3,5,7,9,11,15,17,19,21,23,25};
@@ -34,14 +36,19 @@ class Affine{
 	std::string encrypt(const std::string &plaintext) const{
 		std::string ciphertext;
 		ciphertext.reserve(plaintext.length());
-		size_t i = 0;
 		for(char x:plaintext){
 			if (!( (x >= 32 && x<=90) || (x>=97 && x<=122) ) ) {
-				std::cout << "Warning. The character \"" << x << R"(" is not an alphabetic character so we've simply skipped over it.")" << std::endl;
+				//I don't care during debugging.
+#if WARN_AFFINE_MSG
+				std::cout << "Warning. The character \"" << x << "\" is not an alphabetic character so we've simply skipped over it.\"" << std::endl;
+#endif
 				ciphertext.append(1,x);
 				continue;
 			}
 			else if(x >= 97){
+#if WARN_AFFINE_MSG
+				std::cout << "Warning the character x \"" << x << "\" is lowercase. We are converting it to uppercase."
+#endif
 				x -= 32;
 			}
 			ciphertext.append(1, (char)(( (a*(x-65)) +b) % 26)+65);
@@ -64,20 +71,25 @@ class Affine{
 	}
 	std::string decrypt(const std::string &ciphertext) const{
 		std::string plaintext;
-		plaintext.reserve(ciphertext.length());
+		plaintext.resize(ciphertext.length());
 		size_t i = 0;
 		for(char x:ciphertext){
 			if(!( (x >= 32 && x<=90) || (x>=97 && x<=122) ) ) {
-				std::cout << "Warning. The character \"" << x << R"(" is not an alphabetic character so we've simply skipped over it.")" << std::endl;
-				plaintext.append(1,'_');
+#if WARN_AFFINE_MSG
+				std::cout << "Warning. The character \"" << x << "\" is not an alphabetic character so we've simply skipped over it.\"" << std::endl;
+#endif
+				plaintext[i++] = x;
 				continue;
 			}
 			else if(x >= 97){
+#if WARN_AFFINE_MSG
+				std::cout << "Warning the character x \"" << x << "\" is lowercase. We are converting it to uppercase."
+#endif
 				x -= 97;
 			}
-			plaintext.append(1, (( ( (x-65) - b) * a_inv) % 26)+65 );
-		}
 
+			plaintext[i++] = mod( ( ( (x-65) - b) * a_inv),26)+65 ;
+		}
 		return plaintext;
 	}
 };

@@ -62,7 +62,7 @@ template <typename T> T gcd_fast(T a, T b, T *x, T *y){
  * might make it a #ifdef variable to find out if it throws the error or if it just returns 0. That or make it a
  * 3rd argument.
  */
-template <typename T> T mod_inv(T a, T mod){
+template <typename T> T mod_inv(T a, T modulus){
 	T gcd;
 	T x=0;
 	T y=0;
@@ -76,17 +76,17 @@ template <typename T> T mod_inv(T a, T mod){
 	a*=sign_a;
 	mod*=sign_mod;
 	*/
-	if(mod < 0){
-		x=-mod;
+	if(modulus < 0){
+		x=-modulus;
 	}
 	else {
-		x = mod;
+		x = modulus;
 	}
 	if(a<0) {
 		a += x;
 	}
 	//get the gcd.
-	gcd=gcd_fast(a,mod,&x,&y);
+	gcd=gcd_fast(a,modulus,&x,&y);
 	if(!(gcd == 1 || gcd == -1)){
 		//may make this just return 0 which is basically the same thing.
 		throw std::invalid_argument("The gcd between a and the modulus must be either 1 or -1");
@@ -94,12 +94,15 @@ template <typename T> T mod_inv(T a, T mod){
 	
 	if(gcd == -1) {
 		if (x < 0)
-			return mod - x;
+			return modulus - x;
 		else
-			return x + mod;
+			return x + modulus;
 	}
-	else
-		return x % mod;
+	else {
+		if(x < 0)
+			return mod(x,modulus);
+		return x % modulus;
+	}
 
 }
 template <typename T> T *small_prime_factor(T n){

@@ -1,11 +1,10 @@
 #ifndef XOR_RANDOM_LIB
 #define XOR_RANDOM_LIB
-#include <chrono>
 #ifndef uint64
 typedef unsigned long long uint64;
 #endif
 bool XOR_SHIFT_128_SEEDED=false;
-uint64 xorshift128();
+
 /*
 * Stock Trader CLI Application
 * By Macarthur Inbody <admin-contact@transcendental.us> 2020
@@ -22,6 +21,7 @@ unsigned long long splitmix64(uint64 seed){
 }
 
 #ifdef __cplusplus
+#include <chrono>
 /*
  * templated xorshift128 function.
  *
@@ -81,14 +81,47 @@ template <typename T, typename U> U xorshift128(T low=0, U high=0){
 	}
 	return low+((high-low)*((double)result/ UINT64_MAX));
 }
+
 //this is the C++ version because I'm using chrono. The C version using the same function.
 void s_xor_128(uint64 seed=0){
 	//if we've already seeded it, there's no reason to do it again, if the seed is 0 then they're just calling it to make
 	//sure that it's seeded. But if the seed is not
 	if(!XOR_SHIFT_128_SEEDED || seed != 0) {
 		//make the seed be the current time since epoch in milliseconds.
-		seed = (seed == 0) ? (std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1))
+		seed = (seed == 0) ? static_cast<uint64>(std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1))
 						   : seed;
+		//initalize the state with the seed through the splitmix64 function.
+		XOR_SHIFT_128_STATE[0] = splitmix64(seed);
+		//take the seed and modify it by a bit and reuse it again.
+		XOR_SHIFT_128_STATE[1] = splitmix64(seed << 1);
+		//select how many times we're going to "warm-up" our PRNG. It's from 4->32. This adds a tiny bit of extra randomness.
+		size_t iters = ((seed & 7) + 1) << 2;
+		//unsigned long long rnd;
+		for (size_t i = 0; i < iters; i++) {
+			//i'm just capturing it just so that I don't get that warning.
+			xorshift128(1,1);
+		}
+		XOR_SHIFT_128_SEEDED=true;
+	}
+
+}
+
+
+#else //__cplusplus
+#include <time.h>
+//non templated version for the full width uint64 always.
+//not recommenting this bit.
+//this is the C++ version because I'm using chrono. The C version using the same function.
+void s_xor_128(uint64 seed=0){
+
+	//if we've already seeded it, there's no reason to do it again, if the seed is 0 then they're just calling it to make
+	//sure that it's seeded. But if the seed is not
+	if(!XOR_SHIFT_128_SEEDED || seed != 0) {
+		if(seed == 0){
+			struct timeval tv;
+			gettimeofday(&tv,NULL);
+			seed = (tv.sec << 16) | tv.tv_usec;
+		}
 		//initalize the state with the seed through the splitmix64 function.
 		XOR_SHIFT_128_STATE[0] = splitmix64(seed);
 		//take the seed and modify it by a bit and reuse it again.
@@ -104,26 +137,10 @@ void s_xor_128(uint64 seed=0){
 	}
 
 }
-#else
-//this is currently not used. But will be so that I can seed it and make this into a proper C/C++ header.
-/*
-void s_xor_128(uint64 seed=0){
-	//make the seed be the current time since epoch in milliseconds.
-	//have to create a microtime function for win32, and also unix variant so that I can then call it.
-	seed=(seed==0)?(std::chrono::system_clock::now().time_since_epoch()/std::chrono::milliseconds(1)):seed;
-	//initalize the state with the seed throught the splitmix64 function.
-	XOR_SHIFT_128_STATE[0]=splitmix64(seed);
-	//take the seed and modify it by a bit and reuse it again.
-	XOR_SHIFT_128_STATE[1]=splitmix64(seed<<1);
-}
- */
-#endif //__cplusplus
-//non templated version for the full width uint64 always.
-//not recommenting this bit.
 uint64 xorshift128(){
 	//same as above except we dont' change the values and clamp the range down.
 	uint64 s1=XOR_SHIFT_128_STATE[0];
-	uint64 s0=XOR_SHIFT_128_STATE[1];  
+	uint64 s0=XOR_SHIFT_128_STATE[1];
 	uint64 result=XOR_SHIFT_128_STATE[0]+XOR_SHIFT_128_STATE[1];
 	XOR_SHIFT_128_STATE[0]=s0;
 	s1 ^= s1 << 23;
@@ -132,4 +149,6 @@ uint64 xorshift128(){
 
 	return result;
 }
+#endif
+
 #endif
