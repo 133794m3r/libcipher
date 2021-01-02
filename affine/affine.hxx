@@ -19,12 +19,12 @@ class Affine{
   public:
 	Affine(char _a, char _b){
 		a = _a;
-		a_inv = mod_inv(_a, char(26));
+		a_inv = mod_inv(_a, static_cast<char>(26));
 		b = _b;
 	}
 	explicit Affine(){
 		a = coprimes[xorshift128(0,11)];
-		a_inv = mod_inv(a,char(26));
+		a_inv = mod_inv(a,static_cast<char>(26));
 		if(a == 1){
 			b = xorshift128(2,26);
 		}
@@ -51,7 +51,7 @@ class Affine{
 #endif
 				x -= 32;
 			}
-			ciphertext.append(1, (char)(( (a*(x-65)) +b) % 26)+65);
+			ciphertext.append(1, static_cast<char>((( (a*(x-65)) +b) % 26)+65));
 		}
 		return ciphertext;
 	}
@@ -71,14 +71,13 @@ class Affine{
 	}
 	std::string decrypt(const std::string &ciphertext) const{
 		std::string plaintext;
-		plaintext.resize(ciphertext.length());
-		size_t i = 0;
+		plaintext.reserve(ciphertext.length());
 		for(char x:ciphertext){
 			if(!( (x >= 32 && x<=90) || (x>=97 && x<=122) ) ) {
 #if WARN_AFFINE_MSG
 				std::cout << "Warning. The character \"" << x << "\" is not an alphabetic character so we've simply skipped over it.\"" << std::endl;
 #endif
-				plaintext[i++] = x;
+				plaintext.append(1,x);
 				continue;
 			}
 			else if(x >= 97){
@@ -88,7 +87,7 @@ class Affine{
 				x -= 97;
 			}
 
-			plaintext[i++] = mod( ( ( (x-65) - b) * a_inv),26)+65 ;
+			plaintext.append(1,mod( ( ( (x-65) - b) * a_inv),26)+65);
 		}
 		return plaintext;
 	}

@@ -61,40 +61,6 @@ class Hill{
 		}
 
 	}
-//	//in case they think this is C.
-//	Hill(const Matrix<char> _key=Matrix<char>(2,2,1), char *_alphabet=Null,size_t size=0){
-//		if(_key.get_rows() != _key.get_cols()) {
-//			throw std::invalid_argument("The key must be square. Thus rows and columns should be the same! key.rows="
-//										+ std::to_string(_key.get_rows()) + "key.cols=" +
-//										std::to_string(_key.get_cols()));
-//		}
-//		//if they didn't provide a key we generate one so that it can be instantly used after constructing the class.
-//		if(_key[0] == _key[1] && _key[1] == _key[2] && _key[3] == _key[0]){
-//			gen_key();
-//		}
-//		else{
-//			key=_key;
-//			decryption_key=key.inv_mod((char)alphabet_size);
-//		}
-////		if(_alphabet==NULL){
-////			//const char *tmp="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-////			for(size_t i=0;i<26;i++){
-////				alphabet[65+i]=i;
-////			}
-////			size=26;
-////		}
-////		else{
-//			if(size == 0){
-//				size=sizeof(_alphabet);
-//			}
-//			for(size_t i=0;i<size;i++){
-//				alphabet[*_alphabet+i]=i;
-//			}
-////		}
-//
-//		alphabet_size=size;
-//
-//	}
 	//all of the setters.
 	void set_alphabet(const std::string &string_alphabet){
 		//alphabet=string_alphabet;
@@ -256,9 +222,8 @@ class Hill{
 			std::cout << (int) key[i] << std::endl;
 		}
 		return this->key;
-
-
 	}
+
 	Matrix<char> get_encryption_key(void){
 		size_t max = chunk_size*chunk_size;
 		std::cout << "key " << std::endl;
@@ -267,6 +232,7 @@ class Hill{
 		}
 		return this->key;
 	}
+
 	Matrix<char> get_dec_key(void){
 		size_t max = chunk_size*chunk_size;
 		std::cout << "decryption key " << std::endl;
@@ -275,6 +241,7 @@ class Hill{
 		}
 		return this->decryption_key;
 	}
+
 	Matrix<char> get_decryption_key(void){
 		size_t max = chunk_size*chunk_size;
 		std::cout << "decryption key " << std::endl;
@@ -283,14 +250,16 @@ class Hill{
 		}
 		return this->decryption_key;
 	}
-	/*
+
+
 	std::string get_alphabet(void){
 		return this->alphabet;
 	}
-	 */
+
 	size_t get_modulus(void){
 		return this->alphabet_size;
 	}
+
 	size_t get_chunk_size(void){
 		return this->chunk_size;
 	}
@@ -397,6 +366,8 @@ class Hill{
 
 		return ct;
 	}
+
+
 };
 
 

@@ -22,6 +22,7 @@ double mod(double a, double b){
 	double m = std::fmod(a,b);
 	return m < 0?m+b:m;
 }
+
 //for 16byte floats.
 long double mod(long double a,long double b){
 	long double m = std::fmod(a,b);
@@ -41,19 +42,19 @@ template <typename T> T mod(T a, T b){
 	return m < 0?m+b:m;
 }
 //basic fast gcd.
-template <typename T> T gcd_fast(T a, T b, T *x, T *y){
-	if(a == 0){
-		*x=0;
-		*y=1;
+template <typename T> T gcd_fast(T a, T b, T *x, T *y) {
+	if (a == 0) {
+		*x = 0;
+		*y = 1;
 		return b;
 	}
 	//our x1 and y1 variables.
-	T x1,y1;
+	T x1, y1;
 	//want to cast it into the type we're given.
-	T gcd = gcd_fast(static_cast<T>((a+b)%a), a, &x1, &y1);
+	T gcd = gcd_fast(static_cast<T>((a + b) % a), a, &x1, &y1);
 	//setting the variables.
-	*x=y1-(b/a) * x1;
-	*y=x1;
+	*x = y1 - (b / a) * x1;
+	*y = x1;
 	return gcd;
 }
 /**
@@ -144,4 +145,5 @@ template <typename T> T fast_lcm(T a,T b){
 	return lcm;
 }
 template <typename F,typename P> F to_fixed(F num,P precision){P modifier=pow(10,precision); return round(num*modifier)/modifier;}
+int a = log10(100);
 #endif //_CRYPTO_MATH_HEADER_
