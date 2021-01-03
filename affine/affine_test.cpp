@@ -8,7 +8,7 @@ int main(){
 }
 
 void test_affine(){
-	int k = 0;
+	int k ;
 	std::string test_string = "TEST_STRING";
 	std::string cipher_text;
 	std::string plain_text;
@@ -17,13 +17,13 @@ void test_affine(){
 	for(int i=0;i<12;i++){
 		k = (i == 0)?2:1;
 		for(int j=k;j<=26;j++){
-			std::cout << "Testing with a=" << static_cast<int>(a_values[i]) << " b=" << static_cast<int>(j) << std::endl;
-			affine_cipher.set_key(a_values[i], j);
+			std::cout << "Testing with a=" << static_cast<int>(a_values[i]) << " b=" << j << std::endl;
+			affine_cipher.set_key(a_values[i], static_cast<char>(j));
 			cipher_text = affine_cipher.encrypt(test_string);
 			plain_text = affine_cipher.decrypt(cipher_text);
 			if(plain_text != test_string) {
 				std::cout << "error values don't match. \nts: " << test_string << "\npt: " << plain_text << std::endl;
-				std::cout << "a " << (int) a_values[i] << "b " << (int) j << std::endl;
+				std::cout << "a " << (int) a_values[i] << "b " << j << std::endl;
 				break;
 			}
 		}

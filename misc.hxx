@@ -35,4 +35,11 @@ template <typename T, typename S, typename K> T bin_search(S *arr,T l, T h, K x)
 	return -1;
 
 }
+
+template <typename M, typename K> bool contains(M const&m,K const &k){
+	if(m.find(k) == m.end()) {
+		return false;
+	}
+	return true;
+}
 #endif //LIBCIPHERS_MISC_HXX

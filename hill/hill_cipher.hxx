@@ -1,4 +1,3 @@
-#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 /*
  * By Macarthur Inbody <admin-contact@transcendental.us> 2020
  * Licensed AGPLv3
@@ -8,11 +7,11 @@
 
 #ifndef _HILL_CIPHER_
 #define _HILL_CIPHER_
+#include "../includes.hxx"
 #include "../matrix.hxx"
 #include "../vectors.hxx"
 #include "../random.h"
 #include <map>
-#include <cmath>
 #include <gmpxx.h>
 
 //may end up making it templated to work with bytes also but not sure yet.
@@ -72,8 +71,8 @@ class Hill{
 	}
 
 	//if they like pointers.
-	void set_alphabet(const char *string_alphabet=NULL,size_t size=0){
-		if(string_alphabet==NULL){
+	void set_alphabet(const char *string_alphabet=nullptr,size_t size=0){
+		if(string_alphabet==nullptr){
 			//const char *tmp="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			for(size_t i=0;i<26;i++){
 				alphabet[65+i]=i;
@@ -93,23 +92,21 @@ class Hill{
 	}
 
 	//if they want the program to generate the key for them.
-	void gen_key(void){
+	void gen_key(){
 		size_t items=chunk_size*chunk_size;
 		//have to seed the PRNG. We call it w/o arguments so that if it's already seeded it won't be reseeded again.
 		s_xor_128();
 		char maximum=alphabet_size-1;
 		Matrix<char> local_key(chunk_size,chunk_size,1);
 
-		int det_M = 0;
-		char gcd_val = -2;
-		char X;
-		char Y;
+		int det_M;
+		char gcd_val;
 
 		do {
 			for (size_t i = 0; i < items; i++) {
 				local_key[i] = xorshift128( 0, maximum);
 			}
-			det_M = (int)local_key.det();
+			det_M = static_cast<int>(local_key.det());
 			gcd_val = std::__gcd(det_M,(int)alphabet_size);
 			//gcd_val = gcd_fast(det_M, alphabet_size, &X, &Y);
 
@@ -170,9 +167,9 @@ class Hill{
 		return return_code;
 	}
 	//if they are doing it like it was C.
-	int set_key(const char *string_key=NULL,size_t size=0){
+	int set_key(const char *string_key=nullptr,size_t size=0){
 		int return_code=0;
-		if(string_key == NULL){
+		if(string_key == nullptr){
 			//have to make sure that the chunk size is set at 2 for the next function to work properly.
 			chunk_size=2;
 			//we just generate the key since they didn't provide one.
@@ -252,16 +249,16 @@ class Hill{
 	}
 
 
-	std::string get_alphabet(void){
-		return this->alphabet;
-	}
+//	std::string get_alphabet(void){
+//		return this->alphabet;
+//	}
 
-	size_t get_modulus(void){
+	char get_modulus(void){
 		return this->alphabet_size;
 	}
 
-	size_t get_chunk_size(void){
-		return this->chunk_size;
+	char get_chunk_size(void){
+		return static_cast<char>(this->chunk_size);
 	}
 
 	//this method will return a vector containing matrices of the input data.
@@ -334,7 +331,6 @@ class Hill{
 		else{
 			cols = floor(key_size);
 		}
-		int det = 0;
 
 		std::map <char,size_t>::iterator iterator;
 		Matrix<char> ct(cols,cols);
@@ -362,7 +358,7 @@ class Hill{
 		}
 		ct = ct.inv_mod((int)alphabet_size);
 		std::cout << "ct inv mod " << ct << std::endl;
-		ct = pt.mul_mod(ct,alphabet_size);
+		ct = pt.mul_mod(ct, alphabet_size);
 
 		return ct;
 	}

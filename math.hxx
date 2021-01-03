@@ -31,7 +31,7 @@ long double mod(long double a,long double b){
 //float version.	
 float mod(float a, float b){
 	double m = std::fmod(a,b);
-	return m < 0?m+b:m;
+	return static_cast<float>(m < 0 ? m + b : m);
 }
 
 //the template for all integral types.
@@ -145,5 +145,4 @@ template <typename T> T fast_lcm(T a,T b){
 	return lcm;
 }
 template <typename F,typename P> F to_fixed(F num,P precision){P modifier=pow(10,precision); return round(num*modifier)/modifier;}
-int a = log10(100);
 #endif //_CRYPTO_MATH_HEADER_

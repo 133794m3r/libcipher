@@ -1,9 +1,6 @@
-#include <string>
-#include <iostream>
-#include <algorithm>
-
 #ifndef _LIBCIPHERS_AFFINE_
 #define _LIBCIPHERS_AFFINE_
+#include "../includes.hxx"
 #include "../random.h"
 #include "../misc.hxx"
 #include "../math.hxx"
@@ -26,7 +23,7 @@ class Affine{
 		a = coprimes[xorshift128(0,11)];
 		a_inv = mod_inv(a,static_cast<char>(26));
 		if(a == 1){
-			b = xorshift128(2,26);
+			b = xorshift128(2, 26);
 		}
 		else {
 			b = xorshift128(1, 26);

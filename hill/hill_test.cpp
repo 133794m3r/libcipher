@@ -1,6 +1,4 @@
-#include <iostream>
 #include "hill_cipher.hxx"
-#include "../vectors.hxx"
 
 int main(){
 

@@ -25,7 +25,7 @@ template <typename T> void test_print(std::string input, Matrix<T> &expected, Ma
 		std::cout << input << " test succeeded." << std::endl;
 	}
 }
-template <typename T> void test_print(std::string input,double expected,double result){
+template <> void test_print(std::string input,double expected,double result){
 
 	if(almost_equal(expected,result)){
 		std::cout << input << " test failed expected "<< std::to_string(expected) << " but we got " << std::to_string(result) << "."  << std::endl;
@@ -34,6 +34,7 @@ template <typename T> void test_print(std::string input,double expected,double r
 		std::cout << input << " test succeeded." << std::endl;
 	}
 }
+
 template <typename T> void test_print_matrix(Matrix<T> &lhs, Matrix<T> &rhs){
 	std::cout << "Matrix A=" << lhs << "Matrix B=" << rhs << std::endl;
 }

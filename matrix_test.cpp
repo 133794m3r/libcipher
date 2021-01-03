@@ -1,7 +1,5 @@
-#include <iostream>
 #include <iomanip>
 #include "matrix.hxx"
-//#include "vectors.hxx"
 #include "matrix_test.hxx"
 /*
  * By Macarthur Inbody <admin-contact@transcendental.us> 2020
@@ -58,25 +56,25 @@ void test_comparisons() {
 	bool result;
 	bool expected;
 	std::cout << "Comparison operators " << std::endl;
-	result = (least != most);
+	result = least != most;
 	expected = true;
 	test_print("Matrix A !=(Not Equals) Matrix B", expected, result);
 	if (result != expected) {
 		test_print_matrix(least, most);
 	}
-	result = (least == equals_least);
+	result = least == equals_least;
 	expected = true;
 	test_print("Matrix A ==(Equals) Matrix B", expected, result);
 	if (result != expected) {
 		test_print_matrix(least, most);
 	}
-	result = (least >= most);
+	result = least >= most;
 	expected = false;
 	test_print("Matrix A >=Matrix B", expected, result);
 	if (result != expected) {
 		test_print_matrix(least, most);
 	}
-	result = (least <= most);
+	result = least <= most;
 	expected = true;
 	test_print("Matrix A <= Matrix B", expected, result);
 	if (result != expected) {

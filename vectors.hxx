@@ -13,7 +13,7 @@
 #define _VECTORS_HXX_
 #include <vector>
 #include "math.hxx"
-#include <stdexcept>
+
 
 template <class T,class Allocator> std::vector<T,Allocator> operator+(const std::vector<T, Allocator> &lhs, std::vector<T, Allocator> &rhs){
 	size_t lhs_size=lhs.size();

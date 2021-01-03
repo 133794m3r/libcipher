@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.18)
 project(libciphers)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 if(MSVC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++11 /W4")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++14 /W4")
 	set(CMAKE_CXX_FLAGS_RELEASE "{CMAKE_CXX_FLAGS_RELEASE} /O2")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
@@ -19,6 +19,7 @@ else()
 endif()
 
 add_executable(matrix_test
+		includes.hxx
 		math.hxx
 		vectors.hxx
 		matrix.hxx
@@ -26,19 +27,23 @@ add_executable(matrix_test
 		matrix_test.cpp)
 
 add_executable(hill_cipher
-		hill_cipher.cpp
+		includes.hxx
+		math.hxx
+		vectors.hxx
 		matrix.hxx
 		hill/hill_cipher.hxx
-		math.hxx
-		vectors.hxx)
+		hill_cipher.cpp)
 
 add_executable(affine
+		includes.hxx
 		affine/affine.hxx
 		affine/affine_test.cpp misc.hxx)
 
 add_executable(hill_test
+		includes.hxx
 		hill/hill_test.cpp)
 
 add_executable(ngram_test
+		includes.hxx
 		ngram.hxx
 		ngram_test.cpp)
