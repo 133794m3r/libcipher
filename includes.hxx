@@ -8,4 +8,6 @@
 #include <algorithm>
 #include <string>
 #include <stdexcept>
+#include <regex>
+#include <locale>
 #endif //LIBCIPHERS_INCLUDES_HXX

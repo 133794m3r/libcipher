@@ -47,3 +47,8 @@ add_executable(ngram_test
 		includes.hxx
 		ngram.hxx
 		ngram_test.cpp)
+
+add_executable(affine_cracker
+		includes.hxx
+		affine/affine.hxx
+		affine/affine_crack.cpp)

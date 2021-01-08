@@ -20,6 +20,9 @@ class Affine{
 		b = _b;
 	}
 	explicit Affine(){
+		if(!XOR_SHIFT_128_SEEDED){
+			s_xor_128();
+		}
 		a = coprimes[xorshift128(0,11)];
 		a_inv = mod_inv(a,static_cast<char>(26));
 		if(a == 1){
@@ -34,7 +37,8 @@ class Affine{
 		std::string ciphertext;
 		ciphertext.reserve(plaintext.length());
 		for(char x:plaintext){
-			if (!( (x >= 32 && x<=90) || (x>=97 && x<=122) ) ) {
+
+			if (!( (x >= 65 && x<=90) || (x>=97 && x<=122) ) ) {
 				//I don't care during debugging.
 #if WARN_AFFINE_MSG
 				std::cout << "Warning. The character \"" << x << "\" is not an alphabetic character so we've simply skipped over it.\"" << std::endl;
@@ -63,14 +67,16 @@ class Affine{
 		a_inv = mod_inv(a,(char)26);
 		b = _b;
 	}
+
 	void print_key(){
-		std::cout << "a " << (int)a << "b " << (int)b << "a_inv " << (int)a_inv << std::endl;
+		printf("a=%d b=%d a_inv=%d\r\n",a,b,a_inv);
 	}
+
 	std::string decrypt(const std::string &ciphertext) const{
 		std::string plaintext;
 		plaintext.reserve(ciphertext.length());
 		for(char x:ciphertext){
-			if(!( (x >= 32 && x<=90) || (x>=97 && x<=122) ) ) {
+			if(!( (x >= 65 && x<=90) || (x>=97 && x<=122) ) ) {
 #if WARN_AFFINE_MSG
 				std::cout << "Warning. The character \"" << x << "\" is not an alphabetic character so we've simply skipped over it.\"" << std::endl;
 #endif

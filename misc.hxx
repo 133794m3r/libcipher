@@ -36,6 +36,16 @@ template <typename T, typename S, typename K> T bin_search(S *arr,T l, T h, K x)
 
 }
 
+std::string to_uppercase(std::string input){
+	std::locale loc;
+	std::string output;
+	output.reserve(input.length());
+	for(char i : input){
+		output+=std::toupper(i,loc);
+	}
+	return output;
+}
+
 template <typename M, typename K> bool contains(M const&m,K const &k){
 	if(m.find(k) == m.end()) {
 		return false;
