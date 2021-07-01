@@ -68,10 +68,15 @@ class Affine{
 		b = _b;
 	}
 
-	void print_key(){
+	void print_key() const{
 		printf("a=%d b=%d a_inv=%d\r\n",a,b,a_inv);
 	}
 
+	/**
+	 * Decryption method
+	 * @param ciphertext text to decrypt
+	 * @return std::string plaintext
+	 */
 	std::string decrypt(const std::string &ciphertext) const{
 		std::string plaintext;
 		plaintext.reserve(ciphertext.length());
@@ -94,5 +99,6 @@ class Affine{
 		}
 		return plaintext;
 	}
+
 };
 #endif //_LIBCIPHERS_AFFINE_

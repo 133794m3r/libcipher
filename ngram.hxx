@@ -15,7 +15,6 @@
 class Ngram{
   private:
 	std::unordered_map<std::string, double> ngrams;
-//	std::map<std::string, double> ngrams;
 	double N = 0.00f;
 	size_t L = 0;
 	double floor_val = 0;

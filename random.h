@@ -11,7 +11,9 @@ typedef unsigned long long uint64;
 bool XOR_SHIFT_128_SEEDED=false;
 
 
-uint64 XOR_SHIFT_128_STATE[2]={0LL,0LL};
+//values are non-zero just so that it can be used unseeded.
+uint64 XOR_SHIFT_128_STATE[2]={4486865458633715202ULL,15772110107473307123ULL};
+
 //not going to explain the math behind this. It's up to you figure out on your own.
 //i'm done commenting.
 unsigned long long splitmix64(uint64 seed){

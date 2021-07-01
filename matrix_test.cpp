@@ -566,6 +566,7 @@ void test_arithmetic_double() {
 void test_det_int() {
 	std::vector<int> vec_int = {7, 11, 8, 11};
 	matrix_int test_int(vec_int, 2, 2);
+//	std::cout << test_int.gae() << std::endl;
 	int det = test_int.det();
 	int expect_int = -11;
 	std::cout << "Matrix<int> determinant tests." << std::endl;

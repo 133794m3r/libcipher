@@ -552,8 +552,8 @@ public:
 
 		//if it's 2x2 I can simply do it w/o having do LUD or any other
 		//expensive operations. No reason do all of those extra operations.
-		if(cols == 2 && rows == 2)
-			return static_cast<float>(_det());
+//		if(cols == 2 && rows == 2)
+//			return static_cast<float>(_det());
 		//since it's a const we have to create a matrix to modify.
 		Matrix<float> tmp_matrix(*this);
 		tmp_matrix=*this;
@@ -571,8 +571,8 @@ public:
 
 		//if it's 2x2 I can simply do it w/o having do LUD or any other
 		//expensive operations. No reason do all of those extra operations.
-		if(cols == 2 && rows == 2)
-			return _det();
+//		if(cols == 2 && rows == 2)
+//			return _det();
 		//since it's a const we have to create a matrix to modify.
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnusedValue"
@@ -594,8 +594,8 @@ public:
 		//if it's 2x2 I can simply do it w/o having do LUD or any other
 		//expensive operations. No reason do all of those extra operations.
 
-		if(cols == 2 && rows == 2)
-			return _det();
+//		if(cols == 2 && rows == 2)
+//			return _det();
 
 		//we create a vector so that we can then cast to a double.
 		//to keep precision this has to be done.
